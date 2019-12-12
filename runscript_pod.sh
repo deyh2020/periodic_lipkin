@@ -10,7 +10,7 @@
 #PBS -l walltime=04:00:00
 
 ##Number of nodes and procs per node.
-#PBS -l nodes=1:ppn=10
+#PBS -l nodes=1:ppn=5
 
 ##Send me email when my job aborts, begins, or ends
 #PBS -m ea
@@ -27,7 +27,7 @@ SCRIPT="./lipkin.py"
 #PBS -j oe
 cd $PBS_O_WORKDIR
 ## Number of OpenMP threads to be used by the blas library. Keep this small
-export OMP_NUM_THREADS=2
+export OMP_NUM_THREADS=1
 ##Load these modules before running
 module load openblas anaconda/2019.03/python3.7
 BEGINTIME=$(date +"%s")

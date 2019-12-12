@@ -16,15 +16,13 @@ import numpy as np
 from odeintw import odeintw
 from numpy.linalg import multi_dot, eig
 from multiprocessing import Pool
-import time
 from scipy.interpolate import InterpolatedUnivariateSpline
 import json
 
 #Problem Parameters
+verbose = False
 h0 = 25.0
-omegas = np.linspace(0., 3.5 * h0, 5)
 maxtime = 500
-t = np.linspace(0, maxtime, 20000)
 fname = "minimum_sz_variance_time_" + str(maxtime) + "_jsonfile.json"
 nvals_amps = 3
 nvals_omegas = 6
@@ -32,10 +30,10 @@ threshold = 0.015
 h0 = 25.0
 nprocs = 3
 
+t = np.linspace(0, maxtime, 20000)
 amps = np.linspace(h0/2, h0, nvals_amps)
 omegas = np.linspace(0., 3.5 * h0, nvals_omegas)
 
-verbose = True
 #Pauli Matrices
 sx = np.array([[0, 1],[ 1, 0]])
 sy = np.array([[0, -1j],[1j, 0]])
@@ -90,7 +88,6 @@ if __name__ == '__main__':
     psi0 = evecs[:,np.argmin(evals)].copy()
         
     t = np.linspace(0, 500, 20000)
-    start = time.time()
     p = Pool(processes = nprocs)
     frozen_omegas = {}
     frozen_omegas["ampls"] = amps.tolist()
@@ -98,7 +95,7 @@ if __name__ == '__main__':
     wherefrozen = []
     for h in amps:
         if verbose:
-            print("Amplitude:", h, "Exec time:", time.time() - start)
+            print("Amplitude:", h)
         dq_mf = p.starmap_async(sd_mag_mf,[(t, psi0, h, w) for w in omegas]).get()
         if verbose:
             print(dq_mf)
@@ -119,11 +116,3 @@ if __name__ == '__main__':
     f = open(fname,"w")
     f.write(json)
     f.close()
-    
-    elapsed = (time.time() - start)  
-    print("Time Elapsed = ", elapsed)
-    
-    
-
-    
-    
