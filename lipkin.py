@@ -82,6 +82,18 @@ def sd_mag_mf(times, psi0, h0, omega):
     mz_mf = np.einsum("ij,jk,ik->i", sol_mf.conjugate(), sz, sol_mf)
     return np.std(mz_mf.real)
 
+def sd_mag_tls(times, psi0, h0, omega):
+    """
+    Returns Mean Field Standard Deviaion of Sz magnetization for a
+    particular drive frequency and amplitude
+    """
+    if verbose:
+        print("h = %2.3lf, w = %2.3lf" % (h0, omega))
+    sol_tls = odeintw(tls_func, psi0, times, args=(h0, omega), Dfun=tls_jac)
+    #calculate expectation values
+    mz_tls = np.einsum("ij,jk,ik->i", sol_tls.conjugate(), sz, sol_tls)
+    return np.std(mz_tls.real)
+
 
 if __name__ == '__main__':
     evals, evecs = eig((1j) * tls_jac(None, 0.0, 0.0, 0.0))
