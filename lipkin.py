@@ -86,7 +86,7 @@ def maxfft_mag_tls(t, psi0, h0, h, omega):
 
 if __name__ == '__main__':
     nprocs = 13
-    evals, evecs = eig((1j) * mfd.tls_jac(None, 0.0, 0.0, 0.0, 0.0))
+    evals, evecs = eig((1j) * tls_jac(None, 0.0, 0.0, 0.0, 0.0))
     psi0 = evecs[:,np.argmin(evals)].copy()
     h = 25.0
     h0 = 0.1
@@ -100,12 +100,12 @@ if __name__ == '__main__':
     dc = h0
     print("TLS dynamics for h0 = %f, w with %d processes ..." % (dc, nprocs))
     start = time.time()
-    dq_tls = p.starmap(mfd.maxfft_mag_tls,[(t, psi0, dc, h, w) for w in omegas])
+    dq_tls = p.starmap(maxfft_mag_tls,[(t, psi0, dc, h, w) for w in omegas])
     elapsed =  (time.time() - start)
     print("Done in %lf secs" % elapsed)
     print("MF dynamics for h0 = %f, w with %d processes ..." % (dc, nprocs))
     start = time.time()
-    dq_mf = p.starmap(mfd.maxfft_mag_mf,[(t, psi0, dc, h, w) for w in omegas])
+    dq_mf = p.starmap(maxfft_mag_mf,[(t, psi0, dc, h, w) for w in omegas])
     elapsed = (time.time() - start)  
     print("Done in %lf secs" % elapsed)
     fname = "mf_tls_driven_hd_{}".format(h) + "_h0_{}".format(h0) + "_pheight.csv"
