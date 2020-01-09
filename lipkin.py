@@ -19,6 +19,8 @@ from multiprocessing import Pool
 from scipy.signal import find_peaks
 
 verbose = False
+pheightmin = 100
+
 
 #Pauli Matrices
 sx = np.array([[0, 1],[ 1, 0]])
