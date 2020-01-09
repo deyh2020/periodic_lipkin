@@ -16,7 +16,7 @@ import numpy as np
 from odeintw import odeintw
 from numpy.linalg import multi_dot, eig
 from multiprocessing import Pool
-
+from scipy.signal import find_peaks
 
 verbose = False
 
