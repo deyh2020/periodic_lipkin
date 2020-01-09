@@ -17,6 +17,9 @@ from odeintw import odeintw
 from numpy.linalg import multi_dot, eig
 from multiprocessing import Pool
 
+
+verbose = False
+
 #Pauli Matrices
 sx = np.array([[0, 1],[ 1, 0]])
 sy = np.array([[0, -1j],[1j, 0]])
