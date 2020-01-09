@@ -94,9 +94,6 @@ if __name__ == '__main__':
     t = np.linspace(0, 500, 20000)
     p = Pool(processes = nprocs)
        
-    axs[0].set_title(r"$h_D = {}$ (MF Dynamics)".format(h), fontsize=fs)
-    axs[0].set_ylabel(r'$S^{min}_\omega$',fontsize=fs, rotation="vertical")
-    
     dc = h0
     print("TLS dynamics for h0 = %f, w with %d processes ..." % (dc, nprocs))
     start = time.time()
