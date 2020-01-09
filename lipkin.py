@@ -93,18 +93,11 @@ if __name__ == '__main__':
     omegas = np.linspace(20.0, 21.0,  3 * nprocs)
     t = np.linspace(0, 500, 20000)
     p = Pool(processes = nprocs)
-       
     dc = h0
     print("TLS dynamics for h0 = %f, w with %d processes ..." % (dc, nprocs))
-    start = time.time()
     dq_tls = p.starmap(maxfft_mag_tls,[(t, psi0, dc, h, w) for w in omegas])
-    elapsed =  (time.time() - start)
-    print("Done in %lf secs" % elapsed)
     print("MF dynamics for h0 = %f, w with %d processes ..." % (dc, nprocs))
-    start = time.time()
     dq_mf = p.starmap(maxfft_mag_mf,[(t, psi0, dc, h, w) for w in omegas])
-    elapsed = (time.time() - start)  
-    print("Done in %lf secs" % elapsed)
     fname = "mf_tls_driven_hd_{}".format(h) + "_h0_{}".format(h0) + "_pheight.csv"
     np.savetxt(fname,np.vstack((omegas, dq_mf, dq_tls)).T,delimiter=',')
     print("Data saved in file: " + fname)
